@@ -49,8 +49,8 @@ $ echo -n admin | xxd
 > query : select id from prob_goblin where id='guest' and no=0 or id=0x61646d696e
 
 ### 別解
-絶対に想定解ではないが、これでも正解になった。  
-`admin`の方が`guest`より前に来て、かつ、他に前に来るデータがないと思われる。  
+想定解ではなさそうだが、これでも正解になった。  
+`admin`の方が`guest`より前に来て、かつ、`admin`よりも前に来るデータがないと思われる。  
 ```
 ?no=0 or 1=1 order by 1
 ```
