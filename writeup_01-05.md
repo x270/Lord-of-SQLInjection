@@ -1,5 +1,7 @@
 # Lord of SQLInjection writeup 01-05
 ## 01 - gremlin
+>   $query = "select id from prob_gremlin where id='{$_GET[id]}' and pw='{$_GET[pw]}'";
+
 GETパラメータ`id`と`pw`を特に無害化などしていないことが分かる。  
 何か結果が返ればよいので、or文で条件を崩し、後方をコメントアウトする。
 
@@ -22,6 +24,7 @@ MySQLの場合、`--`ではなく`-- `でコメントアウト。
 URL末尾のスペースはそのままだと無視されるので、` hoge`を入れてみた。
 
 ## 02 - cobolt
+> $query = "select id from prob_cobolt where id='{$_GET[id]}' and pw=md5('{$_GET[pw]}')"; 
 
 SQLの結果から、`id`が`admin`か確認しているので、その通り指定する。  
 パスワードは分からないので前の問題同様、コメントアウトする。  
@@ -33,6 +36,8 @@ SQLの結果から、`id`が`admin`か確認しているので、その通り指
 > query : select id from prob_cobolt where id='admin'#' and pw=md5('')
 
 ## 03 - goblin
+> $query = "select id from prob_goblin where id='guest' and no={$_GET[no]}"; 
+
 SQLの結果から、`id`が`admin`か確認しているが、既に`id='guest'`がベタ書きされている。  
 また、クォーテーションを含むとエラーにされるので、`id='admin'`と書き足せない。  
 文字列を条件にする場合、`'admin'`のようにせず、Hexで表すことができるので、試してみる。
@@ -57,6 +62,9 @@ $ echo -n admin | xxd
 > query : select id from prob_goblin where id='guest' and no=0 or 1=1 order by 1
 
 ## 04 - orc
+> $query = "select id from prob_orc where id='admin' and pw='{$_GET[pw]}'";    
+> $query = "select pw from prob_orc where id='admin' and pw='{$_GET[pw]}'"; 
+
 `admin`のデータが取れれば取り合えずHello adminと表示してくれるが、  
 実際のパスワードとGETパラメータの`pw`が一致していないとクリアできない。  
 まずは`admin`の`pw`が何文字かを当てる。  
@@ -85,6 +93,8 @@ Hello adminと表示されることでパスワードは8文字であること�
 > query : select id from prob_orc where id='admin' and pw='095a9852'
 
 ## 05 - prob_wolfman 
+> $query = "select id from prob_wolfman where id='guest' and pw='{$_GET[pw]}'"; 
+
 半角スペースが禁止されているので`or id='admin`のように書き足せない。  
 MySQLだと`and`は`&&`、`or`は`||`でも書くことができる。  
 
